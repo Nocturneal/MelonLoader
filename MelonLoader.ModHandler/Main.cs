@@ -8,14 +8,15 @@ namespace MelonLoader
 {
     internal static class BuildInfo
     {
-        internal const string Name = "MelonLoader";
-        internal const string Author = "Lava Gang";
-        internal const string Company = "discord.gg/2Wn3N2P";
+        internal const string Name = "NightLoader";
+        internal const string Author = "Noctis";
+        internal const string Company = "no";
         internal const string Version = "0.1.0";
     }
 
     public static class Main
     {
+        public static volatile bool DebugOverride = false;
         internal static List<MelonMod> Mods = new List<MelonMod>();
         internal static MelonModGameAttribute CurrentGameAttribute = null;
         internal static bool IsVRChat = false;
@@ -40,11 +41,7 @@ namespace MelonLoader
                 IsBoneworks = CurrentGameAttribute.IsGame("Stress Level Zero", "BONEWORKS");
             }
 
-            if (!Imports.IsDebugMode()
-#if !DEBUG
-            && Environment.CommandLine.Contains("--melonloader.console")
-#endif
-            )
+            if (!Imports.IsDebugMode() || DebugOverride || Environment.CommandLine.Contains("--melonloader.console"))
             {
                 MelonModLogger.consoleEnabled = true;
                 Console.Create();
